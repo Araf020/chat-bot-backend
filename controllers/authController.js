@@ -1,8 +1,5 @@
 const { google } = require('googleapis');
-const fs = require('fs').promises;
-const path = require('path');
-
-const CREDENTIALS_PATH = path.join(process.cwd(), 'credentials', 'credentials.json');
+const config = require('../config/config');
 
 /**
  * Exchange authorization code for tokens
@@ -20,10 +17,15 @@ exports.exchangeCodeForTokens = async (req, res) => {
       });
     }
     
-    // Load credentials
-    const credentialsContent = await fs.readFile(CREDENTIALS_PATH);
-    const credentials = JSON.parse(credentialsContent);
-    const { client_id, client_secret } = credentials.web || credentials.installed;
+    // Get credentials from environment variables
+    const { clientId: client_id, clientSecret: client_secret } = config.google;
+    
+    if (!client_id || !client_secret) {
+      return res.status(500).json({
+        error: 'Google OAuth not configured',
+        message: 'Please set GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET environment variables'
+      });
+    }
     
     // Create OAuth2 client
     const oauth2Client = new google.auth.OAuth2(
@@ -76,10 +78,15 @@ exports.refreshToken = async (req, res) => {
       });
     }
     
-    // Load credentials
-    const credentialsContent = await fs.readFile(CREDENTIALS_PATH);
-    const credentials = JSON.parse(credentialsContent);
-    const { client_id, client_secret } = credentials.web || credentials.installed;
+    // Get credentials from environment variables
+    const { clientId: client_id, clientSecret: client_secret } = config.google;
+    
+    if (!client_id || !client_secret) {
+      return res.status(500).json({
+        error: 'Google OAuth not configured',
+        message: 'Please set GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET environment variables'
+      });
+    }
     
     // Create OAuth2 client
     const oauth2Client = new google.auth.OAuth2(
