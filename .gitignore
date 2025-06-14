@@ -11,6 +11,10 @@ yarn-error.log
 .env.test.local
 .env.production.local
 
+# Google API credentials
+credentials/credentials.json
+credentials/token.json
+
 # OS specific files
 .DS_Store
 Thumbs.db

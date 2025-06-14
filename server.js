@@ -2,6 +2,8 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const chatRoutes = require('./routes/chatRoutes');
+const calendarRoutes = require('./routes/calendarRoutes');
+const authRoutes = require('./routes/authRoutes');
 const config = require('./config/config');
 
 // Check if API key is present
@@ -19,6 +21,8 @@ app.use(express.json());
 
 // Routes
 app.use('/api', chatRoutes);
+app.use('/api/calendar', calendarRoutes);
+app.use('/api/auth', authRoutes);
 
 // Health check endpoint
 app.get('/health', (req, res) => {

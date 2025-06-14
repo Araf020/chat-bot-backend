@@ -1,8 +1,11 @@
 const Groq = require('groq-sdk');
 const config = require('../config/config');
+// Calendar functions removed - calendar data now comes from frontend via /calendar/query endpoint
 
 // Initialize Groq client
 const client = new Groq({ apiKey: config.groq.apiKey });
+
+// Calendar-related functions removed - frontend handles calendar queries via /calendar/query endpoint
 
 /**
  * Process chat messages and get AI response
@@ -17,6 +20,9 @@ exports.processChat = async (req, res) => {
     if (!messages || !Array.isArray(messages)) {
       return res.status(400).json({ error: "Invalid messages format" });
     }
+    
+    // Calendar integration removed - frontend now handles calendar data via /calendar/query
+    // and includes it as context in the chat request
     
     // Call Groq API
     const response = await client.chat.completions.create({
